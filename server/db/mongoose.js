@@ -2,6 +2,10 @@ var mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
 
+mongoose.connect(process.env.MONGODB_URI);
+
+module.exports = { mongoose };
+
 // let db = {
 //   localhost: "mongodb://localhost:27017/todos",
 //   mlab: "mongodb://lester12345:Lu1salu1sa@ds251362.mlab.com:51362/todolist"
@@ -35,9 +39,3 @@ mongoose.Promise = global.Promise;
 //   mlab: "mongodb://lester12345:Lu1salu1sa@ds251362.mlab.com:51362/todolist"
 // };
 // mongoose.connect(db.localhost || db.mlab);
-
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost:27017/TodoApp"
-);
-
-module.exports = { mongoose };
