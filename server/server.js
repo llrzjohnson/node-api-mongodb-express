@@ -8,6 +8,12 @@ const { User } = require("./models/user");
 
 const app = express();
 
+//SETUP PORT FOR HEROKU and LOCAL PORT
+
+const port = process.env.PORT || 3000;
+
+//SETUP PORT FOR HEROKU and LOCAL PORT
+
 app.use(bodyParser.json());
 
 app.post("/todos", (req, res) => {
@@ -63,8 +69,8 @@ app.get("/todos/:id", (req, res) => {
 });
 
 /////////
-app.listen(3000, () => {
-  console.log("Connected to server - Port 3000");
+app.listen(port, () => {
+  console.log(`Connected to port ${port}`);
 });
 
 module.exports = { app };
