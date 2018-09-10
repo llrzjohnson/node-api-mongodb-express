@@ -68,7 +68,31 @@ app.get("/todos/:id", (req, res) => {
     });
 });
 
-/////////
+app.delete("/todos/:id", (req, res) => {
+  //get the Id
+  let id = req.params.id;
+  if (!ObjectID.isValid(id)) {
+    // validate ID return  404
+    return res.status(404).send();
+    console.log("Invalid ID");
+  }
+
+  // remove to bi id return 200 if OK - return 400 if fail
+  Todo.findByIdAndRemove(id)
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send();
+      }
+      res.status(200).send({
+        todo
+      });
+    })
+    .catch(e => {
+      res.status(400).send();
+    });
+});
+
+///////// Server Connection
 app.listen(port, () => {
   console.log(`Connected to port ${port}`);
 });
