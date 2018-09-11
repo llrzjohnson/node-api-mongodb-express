@@ -121,37 +121,25 @@ app.patch("/todos/:id", (req, res) => {
     .catch(e => {
       res.status(400).send();
     });
+});
 
-  //without LODASH Version
-  //app.patch('/todos/:id', (req, res) => {
-  //   const id = req.params.id;
-  //   const { text, completed } = req.body;
-  //   if (!ObjectID.isValid(id)) {
-  //     return res.status(404).send()
-  //   }
-  //   if (typeof completed === 'boolean' && completed) {
-  //     req.body.completedAt = new Date().getTime();
-  //   } else {
-  //     req.body.completed = false;
-  //     req.completedAt = null;
-  //   }
+//POST /users
 
-  //   Todo.findByIdAndUpdate(id, {
-  //     $set: {
-  //       text: text,
-  //       completed: completed
-  //     }
-  //   }, {
-  //       new: true
-  //     }).then((todo) => {
-  //       if (!todo) {
-  //         return res.status(404).send()
-  //       }
-  //       res.send({ todo: todo })
-  //     }).catch((err) => {
-  //       res.status(400).send()
-  //     })
-  // })
+app.post("/users", (req, res) => {
+  let body = _.pick(req.body, ["email", "password"]);
+  let user = new User(body);
+
+  user
+    .save()
+    .then(user => {
+      return user.generateAuthToken();
+    })
+    .then(token => {
+      res.header("x-auth", token).send(user);
+    })
+    .catch(e => {
+      res.status(400).send(e);
+    });
 });
 
 ///////// Server Connection
